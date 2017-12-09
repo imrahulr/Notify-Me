@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="android.notifications">
+    package="notifications.android.notifyme">
 
     <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -12,6 +12,7 @@
         android:icon="@mipmap/rr"
         android:label="Notify Me"
         android:theme="@style/AppTheme">
+
         <activity
             android:name="notifications.android.notifyme.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -22,17 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name="notifications.android.notifyme.NotificationService"
             android:label="Notify Me"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
-
             <intent-filter>
-
                 <action android:name="android.service.notification.NotificationListenerService" />
-
             </intent-filter>
-
         </service>
 
         <receiver android:name="notifications.android.notifyme.IncomingSms">

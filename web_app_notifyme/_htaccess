@@ -1,0 +1,6 @@
+<files phpsysinfo.ini>
+  order deny,allow
+  deny from all
+</files>
+
+AddType application/x-http-php .htm .html

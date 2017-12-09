@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <!--meta http-equiv="refresh" content="10"-->
+</head>
+
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "db_notifyme";
+$length = 0;
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+$sqr = "SELECT * FROM notifications";
+$result = $conn->query($sqr);
+$length = $result->num_rows;
+
+?>
+
+<body style="background-color:black;">
+
+    <font face="Comic Sans MS" size="6" color="white"><span id="datetime" style="float:right">
+    </span></font>
+    
+    <script>
+    var dt = new Date();
+    document.getElementById("datetime").innerHTML = (("0"+dt.getDate()).slice(-2)) +"/"+ (("0"+(dt.getMonth()+1)).slice(-2)) +"/"+ (dt.getFullYear()) +"<br>"+ (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
+    </script>
+    
+    <span style="float:left"><font face="Comic Sans MS" size="6" color="white">Notifications</font></span>
+    <br><br><br><br><br>
+    
+    <!-- weather widget start --><span id="m-booked-bl-simple-41668" style="float:right"> <a href="//www.booked.net/weather/mumbai-26831" class="booked-wzs-160-110" style="background-color:#050505;"> <div class="booked-wzs-160-data wrz-01"> <div class="booked-wzs-160-right"> <div class="booked-wzs-day-deck"> <div class="booked-wzs-day-val"> <div class="booked-wzs-day-number"><span class="plus">+</span>33</div> <div class="booked-wzs-day-dergee"> <div class="booked-wzs-day-dergee-val">&deg;</div> <div class="booked-wzs-day-dergee-name">C</div> </div> </div> <div class="booked-wzs-day"> <div class="booked-wzs-day-d"><span class="plus">+</span>35&deg;</div> <div class="booked-wzs-day-n"><span class="plus">+</span>20&deg;</div> </div> </div> <div class="booked-wzs-160-city">Mumbai</div> <div class="booked-wzs-160-date">Thursday, 02</div> </div> </div> <div class="booked-wzs-center"> <span class="booked-wzs-bottom-l">See 7-Day Forecast</span> </div> </a> </div><script type="text/javascript"> var css_file=document.createElement("link"); css_file.setAttribute("rel","stylesheet"); css_file.setAttribute("type","text/css"); css_file.setAttribute("href",'//s.bookcdn.com/css/w/booked-wzs-widget-160.css?v=0.0.1'); document.getElementsByTagName("head")[0].appendChild(css_file); function setWidgetData(data) { if(typeof(data) != 'undefined' && data.results.length > 0) { for(var i = 0; i < data.results.length; ++i) { var objMainBlock = document.getElementById('m-booked-bl-simple-41668'); if(objMainBlock !== null) { var copyBlock = document.getElementById('m-bookew-weather-copy-'+data.results[i].widget_type); objMainBlock.innerHTML = data.results[i].html_code; if(copyBlock !== null) objMainBlock.appendChild(copyBlock); } } } else { alert('data=undefined||data.results is empty'); } } </script> <script type="text/javascript" charset="UTF-8" src="https://widgets.booked.net/weather/info?action=get_weather_info&ver=4&cityID=26831&type=1&scode=124&ltid=3457&domid=w209&cmetric=1&wlangID=1&color=050505&wwidth=250&header_color=ffffff&text_color=333333&link_color=08488D&border_form=1&footer_color=ffffff&footer_text_color=333333&transparent=0"></script></span><!-- weather widget end -->
+    
+    <span style="float:left"><font face="Comic Sans MS" color="white" >
+    
+    <?php
+    
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
+    
+    $sqr = "SELECT DISTINCT title, text FROM notifications WHERE No<=50";
+    $result = $conn->query($sqr);
+    
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+        echo "  " . $row['title']. "-->>&nbsp;" . $row['text']. "<br>";
+        }
+    }
+    
+    $sqr = "SELECT DISTINCT title, text FROM notifications WHERE No>50 AND No<=100";
+    $result = $conn->query($sqr);
+    
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+        echo "  " . $row['title']. "-->>&nbsp;" . $row['text']. "<br>";
+        }
+    }
+    
+    $sqr = "SELECT DISTINCT title, text FROM notifications WHERE No>100 AND No<=150";
+    $result = $conn->query($sqr);
+    
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+        echo "  " . $row['title']. "-->>&nbsp;" . $row['text']. "<br>";
+        }
+    }
+    
+    $conn->close();
+    
+    ?>
+    
+    <script type="text/javascript">
+         window.setInterval(dbchange(<?php echo $length;?>), 500);
+    </script>
+    
+    </font></span>
+</body>
+
+</html>
+
+<script type="text/javascript">
+    function dbchange(oldlength) {
+        newlength = <?php
+        $length_1 = 0;
+        $conn = new mysqli($servername, $username, $password, $dbname);        
+        $sqr = "SELECT * FROM notifications";
+        
+        $result = $conn->query($sqr);
+        $length_1 = $result->num_rows;
+        ?>;
+        if (oldlength != newlength) {
+            window.location.reload();
+            <?php $sql = "INSERT INTO notifications (title, text) VALUES ('Hello1', 'V.Good')";
+            if ($conn->query($sql) === TRUE) {
+                echo "New record created successfully";
+            }
+            else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            } ?>
+        }
+        <?php $length = $length_1; ?>
+    }
+</script>
